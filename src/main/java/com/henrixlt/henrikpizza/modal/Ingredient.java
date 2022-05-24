@@ -1,5 +1,6 @@
 package com.henrixlt.henrikpizza.modal;
 
+import com.henrixlt.henrikpizza.enums.Type;
 import lombok.Data;
 
 @Data

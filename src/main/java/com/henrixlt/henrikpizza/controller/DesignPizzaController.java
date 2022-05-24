@@ -1,14 +1,17 @@
-package com.henrixlt.henrikpizza.config;
+package com.henrixlt.henrikpizza.controller;
 
 import com.henrixlt.henrikpizza.modal.Ingredient;
 import com.henrixlt.henrikpizza.modal.Pizza;
 import com.henrixlt.henrikpizza.modal.PizzaOrder;
-import com.henrixlt.henrikpizza.modal.Type;
+import com.henrixlt.henrikpizza.enums.Type;
+import com.henrixlt.henrikpizza.repository.IngredientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import lombok.extern.slf4j.Slf4j;
-import java.util.Arrays;
+
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,25 +21,16 @@ import java.util.stream.Collectors;
 @SessionAttributes("pizzaOrder")
 public class DesignPizzaController {
 
+    private final IngredientRepository ingredientRepository;
+    @Autowired
+    public DesignPizzaController(IngredientRepository ingredientRepository) {
+        this.ingredientRepository = ingredientRepository;
+    }
+
+
     @ModelAttribute
     public void addIngredientsToModel(Model model){
-        List<Ingredient> ingredients = Arrays.asList(
-                new Ingredient("NEAP","Neapolitan Pizza", Type.CRUST_TYPE),
-                new Ingredient("NYSP","New York Style Pizza", Type.CRUST_TYPE),
-                new Ingredient("TMT", "Tomato sauce", Type.SAUCE),
-                new Ingredient("WHT", "White Sauce", Type.SAUCE),
-                new Ingredient("MZRL","Mozzarella", Type.CHEESE),
-                new Ingredient("CHED", "Cheddar", Type.CHEESE),
-                new Ingredient("GOUD","Gouda", Type.CHEESE),
-                new Ingredient("PEP","Peperoni", Type.TOPPINGS),
-                new Ingredient("MUSH", "Mushrooms", Type.TOPPINGS),
-                new Ingredient("HAM","Prosciutto", Type.TOPPINGS),
-                new Ingredient("TOMB","Tomato and Basil", Type.TOPPINGS),
-                new Ingredient("CHICK","Chicken", Type.TOPPINGS ),
-                new Ingredient("PAIN", "Pineapple", Type.EXTRA_TOPPINGS),
-                new Ingredient("SPIN","Spinach", Type.EXTRA_TOPPINGS)
-
-        );
+        List<Ingredient> ingredients = ingredientRepository.findAll();
         Type[] types = Type.values();
         for (Type type : types){
             model.addAttribute(type.toString().toLowerCase(),
@@ -59,9 +53,9 @@ public class DesignPizzaController {
     }
 
     @PostMapping
-    public String processPizza(Pizza pizza, @ModelAttribute PizzaOrder pizzaOrder){
+    public String processPizza(@Valid Pizza pizza, @ModelAttribute PizzaOrder pizzaOrder){
         pizzaOrder.addPizzas(pizza);
-        log.info("Procesing pizza: {}", pizza);
+        log.info("Processing pizza: {}", pizza);
         return "redirect:/orders/current";
     }
 
