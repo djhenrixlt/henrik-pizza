@@ -1,8 +1,8 @@
 package com.henrixlt.henrikpizza.controller;
 
-import com.henrixlt.henrikpizza.modal.Ingredient;
-import com.henrixlt.henrikpizza.modal.Pizza;
-import com.henrixlt.henrikpizza.modal.PizzaOrder;
+import com.henrixlt.henrikpizza.entity.Ingredient;
+import com.henrixlt.henrikpizza.entity.Pizza;
+import com.henrixlt.henrikpizza.entity.PizzaOrder;
 import com.henrixlt.henrikpizza.enums.Type;
 import com.henrixlt.henrikpizza.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;

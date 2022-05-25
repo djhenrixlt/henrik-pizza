@@ -1,7 +1,6 @@
 package com.henrixlt.henrikpizza.component;
 
-import com.henrixlt.henrikpizza.modal.Ingredient;
-import com.henrixlt.henrikpizza.enums.Type;
+import com.henrixlt.henrikpizza.entity.Ingredient;
 import com.henrixlt.henrikpizza.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;

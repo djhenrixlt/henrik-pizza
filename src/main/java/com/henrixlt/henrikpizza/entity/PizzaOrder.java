@@ -1,20 +1,26 @@
-package com.henrixlt.henrikpizza.modal;
+package com.henrixlt.henrikpizza.entity;
 
+import com.henrixlt.henrikpizza.entity.Pizza;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import org.springframework.data.relational.core.mapping.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Data
+@Entity
 public class PizzaOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    @Id
+    @GeneratedValue(strategy =  GenerationType.AUTO)
     private Long id;
 
     private Date placedAt;
@@ -40,9 +46,14 @@ public class PizzaOrder implements Serializable {
     @Digits(integer = 3, fraction = 0, message = "Wrong CVV number")
     private String ccCVV;
 
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Pizza> pizzas = new ArrayList<>();
 
     public void addPizzas(Pizza pizza){
+        this.pizzas.add(pizza);
+    }
+
+    public void  addPizza(Pizza pizza){
         this.pizzas.add(pizza);
     }
 }

@@ -1,6 +1,8 @@
 package com.henrixlt.henrikpizza.controller;
 
-import com.henrixlt.henrikpizza.modal.PizzaOrder;
+import com.henrixlt.henrikpizza.entity.PizzaOrder;
+import com.henrixlt.henrikpizza.repository.OrderRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -17,7 +19,10 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("pizzaOrder")
+@AllArgsConstructor
 public class OrderController {
+
+    private OrderRepository orderRepository;
 
     @GetMapping("/current")
     public String orderForm(){
@@ -29,7 +34,7 @@ public class OrderController {
         if (errors.hasErrors()){
             return "orderForm";
         }
-        log.info("Order submitted: {}", order);
+        orderRepository.save(order);
         sessionStatus.setComplete();
         return "redirect:/";
     }
